@@ -20,14 +20,15 @@
     "web": "expo start --web",
     "static": "expo export && expo serve",
     "shadcn": "npx @react-native-reusables/cli@latest add -o -a -y",
-    "taze": "npx taze major -w -I -x tailwindcss",
+    "taze": "npx taze major -w -x tailwindcss",
     "migrate": "biome migrate  eslint --write   && biome migrate  prettier --write",
     "fix": "biome check --fix",
     "prepare": "husky",
     "typecheck": "tsc --noEmit",
     "align": "expo install --fix",
     "testflight": "npx testflight",
-    "deploy": "npx eas-cli deploy"
+    "deploy": "npx eas-cli deploy",
+    "commitlint": "commitlint --edit"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -90,7 +91,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "@types/react": "~19.2.7",
+    "commitlint": "^20.2.0",
     "eslint": "^9.39.1",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",
