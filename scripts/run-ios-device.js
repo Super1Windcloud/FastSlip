@@ -5,7 +5,7 @@ const { mkdtempSync, readFileSync, rmSync } = require("node:fs");
 const { join } = require("node:path");
 const { tmpdir } = require("node:os");
 
-function readAvailableDevices() {
+function readDevices() {
   const dir = mkdtempSync(join(tmpdir(), "ios-devices-"));
   const jsonPath = join(dir, "devices.json");
 
@@ -18,8 +18,6 @@ function readAvailableDevices() {
         "devices",
         "--timeout",
         "10",
-        "--filter",
-        "State == 'available'",
         "--json-output",
         jsonPath,
       ],
@@ -47,13 +45,20 @@ function isPhysicalIosDevice(device) {
   return platform === "iOS" && reality === "physical";
 }
 
+function isAvailableDevice(device) {
+  const pairingState = device.connectionProperties?.pairingState;
+  const bootState = device.deviceProperties?.bootState;
+  const developerModeStatus = device.deviceProperties?.developerModeStatus;
+  return pairingState === "paired" && bootState === "booted" && developerModeStatus !== "disabled";
+}
+
 function isWirelessDevice(device) {
-  const hostnames = device.connectionProperties?.potentialHostnames ?? [];
-  return hostnames.some((hostname) => hostname.endsWith(".coredevice.local"));
+  const transportType = device.connectionProperties?.transportType;
+  return transportType === "network" || transportType === "wireless";
 }
 
 function pickDevice(devices) {
-  const physicalDevices = devices.filter(isPhysicalIosDevice);
+  const physicalDevices = devices.filter((device) => isPhysicalIosDevice(device) && isAvailableDevice(device));
   const wireless = physicalDevices.find(isWirelessDevice);
   return wireless ?? physicalDevices[0];
 }
@@ -65,7 +70,7 @@ const expoArgs = ["expo", "run:ios", ...forwardedArgs];
 if (explicitDevice) {
   expoArgs.push("--device", explicitDevice);
 } else {
-  const selectedDevice = pickDevice(readAvailableDevices());
+  const selectedDevice = pickDevice(readDevices());
 
   if (!selectedDevice) {
     console.error("No available physical iOS device found.");
