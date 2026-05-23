@@ -16,6 +16,7 @@
     "start": "expo start --dev-client",
     "startc": "expo start --dev-client -c",
     "start:go": "expo start",
+    "postinstall": "node scripts/patch-expo-modules-jsi.js",
     "prebuild": "expo prebuild",
     "apk": "eas build -p android --profile production --local",
     "ipa": "eas build -p ios --profile production --local",
