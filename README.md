@@ -22,7 +22,7 @@ utilities, Zustand, React Query, and English/Chinese i18n.
 
 - Node.js 22+ recommended
 - npm 11+ recommended
-- Android Studio / Xcode for native builds, or Expo Go for supported workflows
+- Android Studio / Xcode for local development builds
 
 ### Install Dependencies
 
@@ -50,19 +50,24 @@ dependencies.
 ### Run The App
 
 ```bash
-npm start       # Expo CLI
+npm start       # Expo CLI for a development build
 npm run android # expo run:android
 npm run ios     # expo run:ios
 npm run web     # expo start --web
 ```
+
+Run `npm run android` or `npm run ios` once to install a development build, then
+use `npm start` for the Metro server. Use `npm run start:go` only when you want
+to open the project in Expo Go.
 
 Use `npm run startc` after changing Metro, NativeWind, or Tailwind configuration
 so Expo starts with a clean cache.
 
 ## Scripts
 
-- `npm run start` - start Expo
-- `npm run startc` - start Expo with cache reset
+- `npm run start` - start Expo for a development build
+- `npm run startc` - start Expo for a development build with cache reset
+- `npm run start:go` - start Expo for Expo Go
 - `npm run android` - build and run Android locally
 - `npm run ios` - build and run iOS locally
 - `npm run web` - start Expo web
