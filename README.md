@@ -1,91 +1,163 @@
 # Create Expo Stack Template
 
-Modern Expo starter scaffolded for full-stack, multi-platform apps. It ships with Expo Router, typed tooling, shadcn-inspired primitives, Tailwind + NativeWind styling, Supabase utilities, and bilingual (English/Chinese) translations out of the box.
+Modern Expo starter for multi-platform apps. It ships with Expo Router, TypeScript,
+Biome, NativeWind, Tailwind CSS, shadcn-inspired React Native primitives, Supabase
+utilities, Zustand, React Query, and English/Chinese i18n.
 
 ## Tech Stack
-- Expo SDK 54 with Expo Router 6
-- React Native 0.81 & React 19
-- TypeScript (strict), ESLint, Prettier, Husky
-- NativeWind + Tailwind CSS 3, `tailwindcss-animate`, theming via CSS variables
-- shadcn/ui primitives from `@rn-primitives`
-- i18n with `i18next`, `react-i18next`, `expo-localization`
-- Supabase client wrapper (AsyncStorage session persistence)
-- Lucide icon set for React Native
+
+- Expo SDK 56 with Expo Router
+- React Native 0.85 and React 19
+- TypeScript in strict mode
+- Biome for linting and formatting
+- NativeWind v5 preview with Tailwind CSS 4
+- React Native Reusables / `@rn-primitives` UI primitives
+- i18n with `i18next`, `react-i18next`, and `expo-localization`
+- Supabase client wrapper with AsyncStorage session persistence
+- Zustand, React Query, React Hook Form, Zod, and Lucide icons
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+ (Node 20 LTS recommended)
-- npm 9+ (ships with Node). You can substitute `pnpm` or `yarn`, but npm scripts are provided.
-- Expo tooling: `npm install -g expo-cli` (optional but handy)
-- Android Studio / Xcode for native emulators, or Expo Go on devices
 
-### Install dependencies
+- Node.js 22+ recommended
+- npm 11+ recommended
+- Android Studio / Xcode for native builds, or Expo Go for supported workflows
+
+### Install Dependencies
+
 ```bash
 npm install
 ```
 
-### Configure environment variables
-Copy `.env.example` (if present) or create `.env` and add your Supabase credentials:
+### Configure Environment Variables
+
+Create `.env` from `.env.example` and fill in your Supabase credentials:
+
+```bash
+cp .env.example .env
 ```
+
+```env
 EXPO_PUBLIC_SUPABASE_URL=your-project-url
 EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
-These are required at runtime; the Supabase client throws early if they are missing.
 
-### Run the app
+`utils/supabase.ts` throws during import when either value is missing. If your app
+does not use Supabase, remove `utils/supabase.ts` and the Supabase-related
+dependencies.
+
+### Run The App
+
 ```bash
-npm start       # Expo CLI (press i / a / w for iOS / Android / web)
-npm run ios     # Shortcut: expo start --ios
-npm run android # Shortcut: expo start --android
-npm run web     # Shortcut: expo start --web
+npm start       # Expo CLI
+npm run android # expo run:android
+npm run ios     # expo run:ios
+npm run web     # expo start --web
 ```
-Metro is configured with `inlineRem: 16`; use `npm start -- --clear` if you change Metro settings and need to reset caches.
+
+Use `npm run startc` after changing Metro, NativeWind, or Tailwind configuration
+so Expo starts with a clean cache.
 
 ## Scripts
-- `npm run typecheck` – TypeScript project check (`tsc --noEmit`)
-- `npm run lint` – ESLint + Prettier consistency check
-- `npm run format` – Apply ESLint fixes and Prettier formatting
-- `npm run align` – `expo install --fix` to reconcile native dependencies
-- `npm run prebuild` – Prepare native projects
-- `npm run shadcn` – Invoke `@react-native-reusables/cli` for additional UI components
-- `npm run taze` – Upgrade dependencies (skips Tailwind to stay on v3 for NativeWind compatibility)
 
-## Project Structure Highlights
-- `app/` – Expo Router routes (`_layout.tsx`, `index.tsx`, etc.), already wired to the theme provider and `PortalHost`.
-- `components/` – Shared UI components, including shadcn-inspired primitives in `components/ui/`.
-- `components/theme.tsx` – Syncs status bar and system background; toggles the `dark` class on web.
-- `lib/utils.ts` – `cn` helper combining `clsx` + `tailwind-merge`.
-- `locales/` – JSON translation catalogs (`en`, `zh`) and i18n initializer.
-- `global.css` – Tailwind layers plus CSS variable theme tokens (light/dark).
-- `tailwind.config.js` – Tailwind/NativeWind configuration (colors, radius, animations).
-- `utils/supabase.ts` – Supabase client configured with AsyncStorage persistence.
+- `npm run start` - start Expo
+- `npm run startc` - start Expo with cache reset
+- `npm run android` - build and run Android locally
+- `npm run ios` - build and run iOS locally
+- `npm run web` - start Expo web
+- `npm run static` - export and serve the static web build
+- `npm run lint` - run Biome checks
+- `npm run format` / `npm run fix` - apply Biome fixes
+- `npm run typecheck` - run TypeScript checks
+- `npm run doctor` - run Expo Doctor
+- `npm run align` - run `expo install --fix`
+- `npm run prebuild` - generate native projects
+- `npm run apk` - local EAS Android production build
+- `npm run ipa` - local EAS iOS production build
+- `npm run shadcn` - add React Native Reusables components
+- `npm run taze` - update dependencies
+
+## Project Structure
+
+- `app/` - Expo Router routes and root layout
+- `components/` - shared components and UI primitives
+- `components/theme.tsx` - status bar, system background, and web dark class sync
+- `components/ui/` - shadcn-inspired React Native components
+- `lib/utils.ts` - `cn` helper using `clsx` and `tailwind-merge`
+- `locales/` - English and Chinese translation catalogs
+- `store/` - Zustand store setup
+- `utils/supabase.ts` - Supabase client
+- `global.css` - Tailwind CSS 4 imports, NativeWind theme import, sources, and theme tokens
+- `postcss.config.mjs` - Tailwind CSS 4 PostCSS plugin
+- `metro.config.js` - Expo Metro wrapped by NativeWind
+
+## Styling
+
+NativeWind is configured for Tailwind CSS 4. Theme tokens live in `global.css`
+inside `@theme`, with light and dark CSS variables below it.
+
+Important files:
+
+- `global.css`
+- `postcss.config.mjs`
+- `metro.config.js`
+- `babel.config.js`
+- `nativewind-env.d.ts`
+
+The app imports `global.css` once in `app/_layout.tsx`.
 
 ## Internationalization
-- Language detection reads system locale via `expo-localization`, normalizes to `en` or `zh`.
-- Add new languages by creating `locales/<lang>.json` and extending `resources` in `locales/index.ts`.
-- Use the `useTranslation` hook from `react-i18next` (`const { t } = useTranslation()`).
 
-## Styling & UI
-- Tailwind utilities are available via NativeWind class names (`className` on React Native views).
-- Theme tokens pull from CSS variables; adjust hues in `global.css`.
-- shadcn components expect `cn` from `@/lib/utils`; keep that helper updated if you extend merging behavior.
-- Portal-based components (dialogs, hover cards, etc.) rely on `<PortalHost />` in `app/_layout.tsx`.
+Language detection reads the device locale via `expo-localization` and normalizes
+to `en` or `zh`.
 
-## Supabase Integration
-- Requires `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY`.
-- Auth sessions persist in `AsyncStorage` and auto-refresh by default.
-- Extend the client or wrap queries inside your state/store as needed.
+To add a language:
+
+1. Add `locales/<lang>.json`.
+2. Register it in `locales/index.ts`.
+3. Keep translation keys mirrored across locale files.
+
+## Supabase
+
+Supabase is included as a starter utility, not a required architecture choice.
+The client expects:
+
+- `EXPO_PUBLIC_SUPABASE_URL`
+- `EXPO_PUBLIC_SUPABASE_ANON_KEY`
+
+Auth sessions persist in AsyncStorage and auto-refresh by default.
+
+## EAS Builds
+
+`eas.json` includes `development`, `preview`, and `production` profiles. Before
+publishing a real app, update:
+
+- `expo.name`
+- `expo.slug`
+- `expo.scheme`
+- `android.package`
+- iOS `bundleIdentifier` if you add iOS native config
+
+## Native Projects
+
+This template currently includes an Android native project. If you want a pure
+Expo CNG template, remove generated native folders and let each app run
+`npm run prebuild` when needed.
+
+## Quality Checks
+
+Run these before shipping template changes:
+
+```bash
+npm run lint
+npm run typecheck
+npm run doctor
+```
 
 ## Troubleshooting
-- **Metro cannot resolve `react-native-css-interop`** → ensure `npm install` ran after pulling. The dependency is pinned at the project root.
-- **Tailwind peer warnings** → Template intentionally uses Tailwind 3.x to match NativeWind’s current interop layer.
-- **Missing environment variables** → Supabase client throws during import; double-check your `.env`.
-- **shadcn diagnostics** → Confirm `global.css`, `tailwind.config.js`, and `app/_layout.tsx` match the docs (already configured here).
 
-## Conventions & Next Steps
-- Keep translations mirrored between `en.json` and `zh.json`.
-- When adding new UI primitives via `npm run shadcn`, follow up with type validations (`npm run typecheck`).
-- Consider wiring in React Query, Sentry, expo-notifications, etc., depending on product needs.
-
-Happy building!
+- If NativeWind styles do not update, restart with `npm run startc`.
+- If Expo reports dependency mismatches, run `npm run align`.
+- If Supabase env values are missing, create `.env` from `.env.example`.
+- If a new project uses different app identifiers, update `app.json` before native builds.
