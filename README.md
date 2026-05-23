@@ -166,3 +166,4 @@ npm run doctor
 - If Expo reports dependency mismatches, run `npm run align`.
 - If Supabase env values are missing, create `.env` from `.env.example`.
 - If a new project uses different app identifiers, update `app.json` before native builds.
+
