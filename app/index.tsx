@@ -1,7 +1,6 @@
 import { Link, Stack } from 'expo-router'
-
-import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'

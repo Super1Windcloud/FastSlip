@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["!!components/ui"]
+    "includes": [
+      "**",
+      "!android/app/build",
+      "!dist",
+      "!dist/**",
+      "!components/ui",
+      "!components/ui/**"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -57,7 +64,14 @@
         "noWith": "warn"
       }
     },
-    "includes": ["**", "!android/app/build", "!dist/*", "**", "!android/app/build", "!dist/*"]
+    "includes": [
+      "**",
+      "!android/app/build",
+      "!dist",
+      "!dist/**",
+      "!components/ui",
+      "!components/ui/**"
+    ]
   },
   "javascript": {
     "formatter": {
