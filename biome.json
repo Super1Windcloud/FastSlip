@@ -6,14 +6,24 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
+    "ignoreUnknown": true,
     "includes": [
-      "**",
-      "!android/app/build",
+      "app/**",
+      "components/**",
+      "lib/**",
+      "locales/**",
+      "store/**",
+      "utils/**",
+      "*.config.js",
+      "*.json",
+      "*.jsonc",
+      "*.d.ts",
+      "global.css",
+      "!android",
+      "!ios",
+      "!.expo",
       "!dist",
-      "!dist/**",
-      "!components/ui",
-      "!components/ui/**"
+      "!node_modules"
     ]
   },
   "formatter": {
@@ -22,56 +32,37 @@
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
-    "lineWidth": 100,
-    "attributePosition": "auto",
-    "bracketSameLine": false,
-    "bracketSpacing": true,
-    "expand": "auto",
-    "useEditorconfig": true
+    "lineWidth": 100
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "recommended": true,
       "correctness": {
-        "noChildrenProp": "error",
-        "noEmptyCharacterClassInRegex": "warn",
-        "noEmptyPattern": "warn",
-        "noUndeclaredVariables": "error",
-        "noUnreachable": "warn",
-        "noUnusedLabels": "warn",
         "noUnusedVariables": "warn",
         "useExhaustiveDependencies": "warn",
-        "useHookAtTopLevel": "error",
-        "useIsNan": "error",
-        "useJsxKeyInIterable": "error",
-        "useValidTypeof": "error"
+        "useHookAtTopLevel": "error"
       },
       "security": {
         "noDangerouslySetInnerHtmlWithChildren": "error"
       },
+      "complexity": {
+        "noUselessFragments": "off"
+      },
+      "style": {
+        "noCommonJs": "off",
+        "useConsistentArrayType": {
+          "level": "warn",
+          "options": {
+            "syntax": "shorthand"
+          }
+        }
+      },
       "suspicious": {
-        "noCommentText": "error",
-        "noDoubleEquals": "warn",
-        "noDuplicateCase": "error",
-        "noDuplicateClassMembers": "error",
-        "noDuplicateJsxProps": "error",
-        "noDuplicateObjectKeys": "error",
-        "noDuplicateParameters": "error",
-        "noRedeclare": "warn",
-        "noUnsafeNegation": "warn",
-        "noVar": "error",
-        "noWith": "warn"
+        "noConsole": "off",
+        "noExplicitAny": "warn"
       }
-    },
-    "includes": [
-      "**",
-      "!android/app/build",
-      "!dist",
-      "!dist/**",
-      "!components/ui",
-      "!components/ui/**"
-    ]
+    }
   },
   "javascript": {
     "formatter": {
@@ -81,244 +72,66 @@
       "semicolons": "asNeeded",
       "arrowParentheses": "always",
       "bracketSameLine": false,
-      "quoteStyle": "single",
-      "attributePosition": "auto",
-      "bracketSpacing": true
+      "quoteStyle": "single"
     },
-    "globals": [
-      "onanimationend",
-      "ongamepadconnected",
-      "onlostpointercapture",
-      "onanimationiteration",
-      "onkeyup",
-      "onmousedown",
-      "onanimationstart",
-      "onslotchange",
-      "onprogress",
-      "ontransitionstart",
-      "onpause",
-      "onended",
-      "onpointerover",
-      "onscrollend",
-      "onformdata",
-      "ontransitionrun",
-      "shared-node-browser",
-      "onanimationcancel",
-      "ondrag",
-      "onchange",
-      "onbeforeinstallprompt",
-      "onbeforexrselect",
-      "onabort",
-      "onmessage",
-      "ontransitioncancel",
-      "onpointerdown",
-      "onpointerout",
-      "oncuechange",
-      "ongotpointercapture",
-      "onscrollsnapchanging",
-      "onsearch",
-      "onsubmit",
-      "onstalled",
-      "onsuspend",
-      "onreset",
-      "onerror",
-      "onmouseenter",
-      "ongamepaddisconnected",
-      "onresize",
-      "ondragover",
-      "onbeforetoggle",
-      "onmouseover",
-      "onpagehide",
-      "onmousemove",
-      "onratechange",
-      "oncommand",
-      "onmessageerror",
-      "onwheel",
-      "ondevicemotion",
-      "onauxclick",
-      "ontransitionend",
-      "onpaste",
-      "onpageswap",
-      "ononline",
-      "ondeviceorientationabsolute",
-      "onkeydown",
-      "onclose",
-      "onselect",
-      "onpageshow",
-      "onpointercancel",
-      "onbeforematch",
-      "onpointerrawupdate",
-      "ondragleave",
-      "onscrollsnapchange",
-      "onseeked",
-      "onwaiting",
-      "onbeforeunload",
-      "onplaying",
-      "onvolumechange",
-      "ondragend",
-      "onstorage",
-      "onloadeddata",
-      "onfocus",
-      "onoffline",
-      "onplay",
-      "onafterprint",
-      "onclick",
-      "oncut",
-      "onmouseout",
-      "ondblclick",
-      "oncanplay",
-      "onloadstart",
-      "onappinstalled",
-      "onpointermove",
-      "ontoggle",
-      "oncontextmenu",
-      "onblur",
-      "oncancel",
-      "onbeforeprint",
-      "oncontextrestored",
-      "onloadedmetadata",
-      "onpointerup",
-      "onlanguagechange",
-      "oncopy",
-      "onselectstart",
-      "onscroll",
-      "onload",
-      "ondragstart",
-      "onbeforeinput",
-      "oncanplaythrough",
-      "oninput",
-      "oninvalid",
-      "ontimeupdate",
-      "ondurationchange",
-      "onselectionchange",
-      "onmouseup",
-      "location",
-      "onkeypress",
-      "onpointerleave",
-      "oncontextlost",
-      "ondrop",
-      "onsecuritypolicyviolation",
-      "oncontentvisibilityautostatechange",
-      "ondeviceorientation",
-      "onseeking",
-      "onrejectionhandled",
-      "onunload",
-      "onmouseleave",
-      "onhashchange",
-      "onpointerenter",
-      "onmousewheel",
-      "onpagereveal",
-      "onunhandledrejection",
-      "ondragenter",
-      "onpopstate",
-      "__DEV__",
-      "onemptied"
-    ]
+    "globals": ["__DEV__", "process"]
   },
-  "html": {
+  "json": {
     "formatter": {
-      "indentScriptAndStyle": false,
-      "selfCloseVoidElements": "always"
+      "trailingCommas": "none"
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
     }
   },
   "overrides": [
     {
       "includes": ["**/*.d.ts"],
       "linter": {
-        "rules": {}
-      }
-    },
-    {
-      "includes": ["**/metro.config.js"],
-      "javascript": {
-        "globals": ["exports"]
-      }
-    },
-    {
-      "includes": ["**/*.js", "**/*.jsx"]
-    },
-    {
-      "includes": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
-      "javascript": {
-        "globals": []
-      },
-      "linter": {
         "rules": {
-          "complexity": {
-            "noUselessConstructor": "warn"
-          },
           "correctness": {
-            "noUndeclaredVariables": "off",
-            "noUnusedVariables": "warn"
-          },
-          "style": {
-            "noCommonJs": "warn",
-            "useConsistentArrayType": {
-              "level": "warn",
-              "options": {
-                "syntax": "shorthand"
-              }
-            }
-          },
-          "suspicious": {
-            "noDuplicateClassMembers": "error",
-            "noExtraNonNullAssertion": "warn",
-            "noRedeclare": "warn"
+            "noUnusedVariables": "off"
           }
         }
       }
     },
     {
-      "includes": ["*.web.*"]
-    },
-    {
-      "includes": ["**/*.d.ts"],
-      "linter": {
-        "rules": {}
-      }
-    },
-    {
-      "includes": ["**/metro.config.js"],
-      "javascript": {
-        "globals": ["exports"]
-      }
-    },
-    {
-      "includes": ["**/*.js", "**/*.jsx"]
-    },
-    {
-      "includes": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
-      "javascript": {
-        "globals": []
-      },
+      "includes": ["app/+html.tsx"],
       "linter": {
         "rules": {
-          "complexity": {
-            "noUselessConstructor": "warn"
-          },
-          "correctness": {
-            "noUndeclaredVariables": "off",
-            "noUnusedVariables": "warn"
-          },
-          "style": {
-            "noCommonJs": "warn",
-            "useConsistentArrayType": {
-              "level": "warn",
-              "options": {
-                "syntax": "shorthand"
-              }
-            }
-          },
-          "suspicious": {
-            "noDuplicateClassMembers": "error",
-            "noExtraNonNullAssertion": "warn",
-            "noRedeclare": "warn"
+          "security": {
+            "noDangerouslySetInnerHtml": "off"
           }
         }
       }
     },
     {
-      "includes": ["*.web.*"]
+      "includes": ["global.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noUnknownAtRules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["*.config.js", "metro.config.js", "babel.config.js", "commitlint.config.js"],
+      "javascript": {
+        "globals": ["module", "require", "__dirname"]
+      },
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useArrowFunction": "off"
+          }
+        }
+      }
     }
   ],
   "assist": {

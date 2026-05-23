@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
-import { Platform, TextInput, type TextInputProps } from 'react-native';
+import { Platform, TextInput, type TextInputProps } from 'react-native'
+import { cn } from '@/lib/utils'
 
 function Input({
   className,
@@ -27,7 +27,7 @@ function Input({
       )}
       {...props}
     />
-  );
+  )
 }
 
-export { Input };
+export { Input }
