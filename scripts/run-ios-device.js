@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+const { execFileSync, spawnSync } = require("node:child_process");
+const { mkdtempSync, readFileSync, rmSync } = require("node:fs");
+const { join } = require("node:path");
+const { tmpdir } = require("node:os");
+
+function readAvailableDevices() {
+  const dir = mkdtempSync(join(tmpdir(), "ios-devices-"));
+  const jsonPath = join(dir, "devices.json");
+
+  try {
+    execFileSync(
+      "xcrun",
+      [
+        "devicectl",
+        "list",
+        "devices",
+        "--timeout",
+        "10",
+        "--filter",
+        "State == 'available'",
+        "--json-output",
+        jsonPath,
+      ],
+      { stdio: ["ignore", "ignore", "pipe"] },
+    );
+
+    const output = JSON.parse(readFileSync(jsonPath, "utf8"));
+    return output.result?.devices ?? [];
+  } finally {
+    rmSync(dir, { force: true, recursive: true });
+  }
+}
+
+function deviceName(device) {
+  return device.deviceProperties?.name ?? device.identifier ?? "Unknown iOS device";
+}
+
+function deviceUdid(device) {
+  return device.hardwareProperties?.udid ?? device.identifier;
+}
+
+function isPhysicalIosDevice(device) {
+  const platform = device.hardwareProperties?.platform;
+  const reality = device.hardwareProperties?.reality;
+  return platform === "iOS" && reality === "physical";
+}
+
+function isWirelessDevice(device) {
+  const hostnames = device.connectionProperties?.potentialHostnames ?? [];
+  return hostnames.some((hostname) => hostname.endsWith(".coredevice.local"));
+}
+
+function pickDevice(devices) {
+  const physicalDevices = devices.filter(isPhysicalIosDevice);
+  const wireless = physicalDevices.find(isWirelessDevice);
+  return wireless ?? physicalDevices[0];
+}
+
+const explicitDevice = process.env.IOS_DEVICE;
+const forwardedArgs = process.argv.slice(2);
+const expoArgs = ["expo", "run:ios", ...forwardedArgs];
+
+if (explicitDevice) {
+  expoArgs.push("--device", explicitDevice);
+} else {
+  const selectedDevice = pickDevice(readAvailableDevices());
+
+  if (!selectedDevice) {
+    console.error("No available physical iOS device found.");
+    console.error("Wireless devices must be awake, unlocked, paired, on the same network, and available in Xcode.");
+    console.error("Connect a device by USB as fallback, or run `npm run ios:sim` for Simulator.");
+    process.exit(1);
+  }
+
+  const udid = deviceUdid(selectedDevice);
+  const connection = isWirelessDevice(selectedDevice) ? "wireless" : "wired";
+  console.log(`Using ${connection} iOS device: ${deviceName(selectedDevice)} (${udid})`);
+  expoArgs.push("--device", udid);
+}
+
+if (process.env.IOS_DEVICE_DRY_RUN === "1") {
+  console.log(["npx", ...expoArgs].join(" "));
+  process.exit(0);
+}
+
+const result = spawnSync("npx", expoArgs, { stdio: "inherit" });
+process.exit(result.status ?? 1);

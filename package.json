@@ -11,7 +11,8 @@
   "homepage": "https://github.com/Super1WindCloud",
   "scripts": {
     "android": "expo run:android",
-    "ios": "expo run:ios",
+    "ios": "node scripts/run-ios-device.js",
+    "ios:sim": "expo run:ios",
     "start": "expo start --dev-client",
     "startc": "expo start --dev-client -c",
     "start:go": "expo start",
