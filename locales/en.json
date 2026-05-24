@@ -1,12 +1,77 @@
 {
+  "tabs": {
+    "home": "Home",
+    "settings": "Settings"
+  },
   "home": {
     "title": "Home",
-    "showDetails": "Show Details"
+    "badge": "iOS 26 Template",
+    "heroTitle": "A clean, fluid app shell ready for real work",
+    "heroSubtitle": "The starter screen now has clearer hierarchy, focused actions, and a calmer iPhone-native rhythm.",
+    "previewLabel": "Design System",
+    "previewTitle": "Liquid Glass",
+    "metrics": {
+      "system": "System fit",
+      "layers": "Visual layers"
+    },
+    "features": [
+      {
+        "title": "Translucent layers",
+        "description": "Light surfaces, soft borders, and system color accents move the template toward iOS 26."
+      },
+      {
+        "title": "Focused content",
+        "description": "Default placeholder copy is replaced with a useful home structure and clear entry points."
+      },
+      {
+        "title": "Adaptive themes",
+        "description": "The palette follows the device theme while keeping contrast readable in dark mode."
+      }
+    ],
+    "showDetails": "View template structure"
   },
   "details": {
     "title": "Details",
-    "description": "Showing details for user {{name}}",
-    "unknownUser": "someone"
+    "eyebrow": "Template Notes",
+    "description": "{{name}} interface pass is ready",
+    "subtitle": "This screen keeps the template's core capabilities visible so product pages, components, and data flows can be expanded from here.",
+    "unknownUser": "iOS 26",
+    "stack": [
+      {
+        "title": "Expo Router",
+        "description": "The file-based route structure is preserved for home, details, and fallback screens."
+      },
+      {
+        "title": "NativeWind + StyleSheet",
+        "description": "Shared components can still use Tailwind while custom visuals stay stable in local styles."
+      },
+      {
+        "title": "i18n Ready",
+        "description": "Chinese and English copy are updated together for future screens to follow."
+      }
+    ]
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "A focused place for app preferences, system capabilities, and future account entry points.",
+    "items": [
+      {
+        "title": "Appearance",
+        "description": "Follows the device theme and leaves room for manual theme controls."
+      },
+      {
+        "title": "Language",
+        "description": "Chinese and English copy are wired up with the same translation structure."
+      },
+      {
+        "title": "Notifications",
+        "description": "Keeps a natural home for alerts, messages, and real product toggles."
+      },
+      {
+        "title": "Privacy",
+        "description": "Provides a clear place for permissions, data, and security details."
+      }
+    ]
   },
   "notFound": {
     "title": "Oops!",

@@ -10,7 +10,9 @@ export default function Layout() {
   return (
     <SafeAreaProvider>
       <Theme>
-        <Stack />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
         <PortalHost />
       </Theme>
     </SafeAreaProvider>

@@ -1,12 +1,77 @@
 {
+  "tabs": {
+    "home": "首页",
+    "settings": "设置"
+  },
   "home": {
     "title": "首页",
-    "showDetails": "查看详情"
+    "badge": "iOS 26 模版",
+    "heroTitle": "清爽、通透、可直接开工的应用骨架",
+    "heroSubtitle": "重新整理首页层级、状态入口和视觉节奏，让模板打开后就是一个完整的 iPhone 应用起点。",
+    "previewLabel": "设计系统",
+    "previewTitle": "Liquid Glass",
+    "metrics": {
+      "system": "系统适配",
+      "layers": "视觉层级"
+    },
+    "features": [
+      {
+        "title": "通透玻璃层",
+        "description": "使用轻量分层、柔和边框和系统色，贴近 iOS 26 的视觉方向。"
+      },
+      {
+        "title": "信息更聚焦",
+        "description": "去掉默认占位说明，保留标题、预览卡片和核心功能入口。"
+      },
+      {
+        "title": "深浅色自适应",
+        "description": "跟随系统主题切换颜色，暗色模式下仍保持清晰对比。"
+      }
+    ],
+    "showDetails": "查看模板结构"
   },
   "details": {
     "title": "详情",
-    "description": "显示用户 {{name}} 的详情",
-    "unknownUser": "某人"
+    "eyebrow": "模板说明",
+    "description": "{{name}} 已完成界面适配",
+    "subtitle": "这里展示模板保留的基础能力，方便继续扩展业务页面、组件和数据层。",
+    "unknownUser": "iOS 26",
+    "stack": [
+      {
+        "title": "Expo Router",
+        "description": "保留文件路由结构，首页、详情页和异常页可以继续按目录扩展。"
+      },
+      {
+        "title": "NativeWind + StyleSheet",
+        "description": "基础组件仍可使用 Tailwind，复杂视觉使用本地样式保持稳定。"
+      },
+      {
+        "title": "i18n Ready",
+        "description": "中英文文案已同步更新，继续添加页面时可沿用同一套翻译结构。"
+      }
+    ]
+  },
+  "settings": {
+    "title": "设置",
+    "subtitle": "集中放置应用偏好、系统能力和后续可扩展的账户入口。",
+    "items": [
+      {
+        "title": "外观",
+        "description": "跟随系统深浅色，也可继续扩展为手动主题选择。"
+      },
+      {
+        "title": "语言",
+        "description": "模板已接入中英文文案，新增语言时沿用同一结构。"
+      },
+      {
+        "title": "通知",
+        "description": "预留消息和提醒入口，方便接入真实业务开关。"
+      },
+      {
+        "title": "隐私",
+        "description": "为权限、数据和安全说明保留清晰的设置位置。"
+      }
+    ]
   },
   "notFound": {
     "title": "哎呀！",
