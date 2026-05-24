@@ -16,7 +16,6 @@ import {
   Utensils,
 } from 'lucide-react-native'
 import { useMemo, useRef, useState } from 'react'
-import type { ImageSourcePropType } from 'react-native'
 import {
   Alert,
   Image,
@@ -58,8 +57,6 @@ type OrderForm = {
 }
 
 const statusOptions: OrderStatus[] = ['已完成', '预订成功', '待支付', '已取消']
-
-const defaultHotelImage = require('../../screenshot/template.png')
 
 const initialForm: OrderForm = {
   orderNo: '1128148127564710',
@@ -331,11 +328,7 @@ export default function OrderGeneratorScreen() {
               </Pressable>
             </View>
             <View collapsable={false} ref={previewRef} style={previewStyle}>
-              {platform === 'ctrip' ? (
-                <CtripPreview form={form} imageSource={defaultHotelImage} />
-              ) : (
-                <MeituanPreview form={form} imageSource={defaultHotelImage} />
-              )}
+              {platform === 'ctrip' ? <CtripPreview form={form} /> : <MeituanPreview form={form} />}
             </View>
           </View>
         </View>
@@ -427,25 +420,19 @@ function StatusBar({ brand, time }: { brand: Platform; time: string }) {
   )
 }
 
-function HotelImage({
-  fallback,
-  uri,
-  style,
-}: {
-  fallback: ImageSourcePropType
-  uri: string
-  style: object
-}) {
-  return <Image source={uri ? { uri } : fallback} style={style} />
+function HotelImage({ uri, style }: { uri: string; style: object }) {
+  if (uri) {
+    return <Image source={{ uri }} style={style} />
+  }
+
+  return (
+    <View style={[style, styles.hotelImagePlaceholder]}>
+      <Text style={styles.hotelImagePlaceholderText}>酒店</Text>
+    </View>
+  )
 }
 
-function CtripPreview({
-  form,
-  imageSource,
-}: {
-  form: OrderForm
-  imageSource: ImageSourcePropType
-}) {
+function CtripPreview({ form }: { form: OrderForm }) {
   const statusColor =
     form.status === '已取消' ? '#8a8f98' : form.status === '待支付' ? '#f59e0b' : '#00875a'
 
@@ -499,11 +486,7 @@ function CtripPreview({
               <Text style={styles.ctripHotelName}>{form.hotelName}</Text>
               <Text style={styles.underline}>酒店详情</Text>
             </View>
-            <HotelImage
-              fallback={imageSource}
-              style={styles.ctripHotelImage}
-              uri={form.hotelImage}
-            />
+            <HotelImage style={styles.ctripHotelImage} uri={form.hotelImage} />
           </View>
           <View style={styles.ctripActionRow}>
             <View style={styles.ctripAction}>
@@ -561,13 +544,7 @@ function CtripPreview({
   )
 }
 
-function MeituanPreview({
-  form,
-  imageSource,
-}: {
-  form: OrderForm
-  imageSource: ImageSourcePropType
-}) {
+function MeituanPreview({ form }: { form: OrderForm }) {
   return (
     <View style={styles.meituanScreen}>
       <StatusBar brand="meituan" time={form.mobileTime} />
@@ -611,11 +588,7 @@ function MeituanPreview({
 
         <View style={styles.meituanHotelCard}>
           <View style={styles.meituanHotelTop}>
-            <HotelImage
-              fallback={imageSource}
-              style={styles.meituanHotelImage}
-              uri={form.hotelImage}
-            />
+            <HotelImage style={styles.meituanHotelImage} uri={form.hotelImage} />
             <View style={styles.meituanHotelCopy}>
               <Text numberOfLines={2} style={styles.meituanHotelName}>
                 {form.hotelName} <ChevronRight color="#111827" size={15} />
@@ -989,6 +962,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
     justifyContent: 'space-between',
+  },
+  hotelImagePlaceholder: {
+    alignItems: 'center',
+    backgroundColor: '#dbe7f4',
+    justifyContent: 'center',
+  },
+  hotelImagePlaceholderText: {
+    color: '#4b5563',
+    fontSize: 14,
+    fontWeight: '900',
+    letterSpacing: 0,
   },
   hotelNameWrap: {
     flex: 1,
