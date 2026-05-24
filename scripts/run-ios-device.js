@@ -49,12 +49,13 @@ function isAvailableDevice(device) {
   const pairingState = device.connectionProperties?.pairingState;
   const bootState = device.deviceProperties?.bootState;
   const developerModeStatus = device.deviceProperties?.developerModeStatus;
-  return pairingState === "paired" && bootState === "booted" && developerModeStatus !== "disabled";
+  const isBootedOrPhysical = bootState == null || bootState === "booted";
+  return pairingState === "paired" && isBootedOrPhysical && developerModeStatus !== "disabled";
 }
 
 function isWirelessDevice(device) {
   const transportType = device.connectionProperties?.transportType;
-  return transportType === "network" || transportType === "wireless";
+  return transportType === "localNetwork" || transportType === "network" || transportType === "wireless";
 }
 
 function pickDevice(devices) {
