@@ -31,6 +31,7 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { captureRef } from 'react-native-view-shot'
+import { TAB_ACTIVE_COLOR } from '@/lib/colors'
 
 type Platform = 'ctrip' | 'meituan'
 type OrderStatus = '已完成' | '预订成功' | '待支付' | '已取消'
@@ -1341,8 +1342,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   platformButtonActive: {
-    backgroundColor: '#111827',
-    borderColor: '#111827',
+    backgroundColor: TAB_ACTIVE_COLOR,
+    borderColor: TAB_ACTIVE_COLOR,
   },
   platformText: {
     color: '#374151',
@@ -1445,7 +1446,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     alignItems: 'center',
-    backgroundColor: '#111827',
+    backgroundColor: TAB_ACTIVE_COLOR,
     borderRadius: 6,
     minHeight: 36,
     justifyContent: 'center',

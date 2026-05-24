@@ -1,0 +1,51 @@
+diff --git a/node_modules/react-native-view-shot/ios/RNViewShot.mm b/node_modules/react-native-view-shot/ios/RNViewShot.mm
+index 2cf632f..eb35c24 100644
+--- a/node_modules/react-native-view-shot/ios/RNViewShot.mm
++++ b/node_modules/react-native-view-shot/ios/RNViewShot.mm
+@@ -4,7 +4,6 @@
+ #import <React/UIView+React.h>
+ #import <React/RCTUtils.h>
+ #import <React/RCTConvert.h>
+-#import <React/RCTScrollView.h>
+ #import <React/RCTUIManager.h>
+ #if __has_include(<React/RCTUIManagerUtils.h>)
+ #import <React/RCTUIManagerUtils.h>
+@@ -15,6 +14,22 @@
+ #import <rnviewshot/rnviewshot.h>
+ #endif
+ 
++static UIScrollView *RNViewShotFindScrollView(UIView *view)
++{
++  if ([view isKindOfClass:[UIScrollView class]]) {
++    return (UIScrollView *)view;
++  }
++
++  for (UIView *subview in view.subviews) {
++    UIScrollView *scrollView = RNViewShotFindScrollView(subview);
++    if (scrollView) {
++      return scrollView;
++    }
++  }
++
++  return nil;
++}
++
+ @implementation RNViewShot
+ 
+ RCT_EXPORT_MODULE()
+@@ -80,12 +95,11 @@ RCT_EXPORT_METHOD(captureRef:(nonnull NSNumber *)target
+     UIView* rendered;
+     UIScrollView* scrollView;
+     if (snapshotContentContainer) {
+-      if (![view isKindOfClass:[RCTScrollView class]]) {
+-        reject(RCTErrorUnspecified, [NSString stringWithFormat:@"snapshotContentContainer can only be used on a RCTScrollView. instead got: %@", view], nil);
++      scrollView = RNViewShotFindScrollView(view);
++      if (!scrollView) {
++        reject(RCTErrorUnspecified, [NSString stringWithFormat:@"snapshotContentContainer can only be used on a view containing a UIScrollView. instead got: %@", view], nil);
+         return;
+       }
+-      RCTScrollView* rctScrollView = view;
+-      scrollView = rctScrollView.scrollView;
+       rendered = scrollView;
+     }
+     else {

@@ -1,17 +1,18 @@
 import { NativeTabs } from 'expo-router/unstable-native-tabs'
+import { TAB_ACTIVE_COLOR } from '@/lib/colors'
 
 export default function TabsLayout() {
   return (
     <NativeTabs
       blurEffect="systemChromeMaterial"
-      iconColor={{ default: '#3c3c43', selected: '#5b56a9' }}
+      iconColor={{ default: '#3c3c43', selected: TAB_ACTIVE_COLOR }}
       labelStyle={{
         default: { color: '#3c3c43', fontSize: 11, fontWeight: '500' },
-        selected: { color: '#5b56a9', fontSize: 11, fontWeight: '600' },
+        selected: { color: TAB_ACTIVE_COLOR, fontSize: 11, fontWeight: '600' },
       }}
       minimizeBehavior="automatic"
       shadowColor="rgba(60, 60, 67, 0.18)"
-      tintColor="#5b56a9"
+      tintColor={TAB_ACTIVE_COLOR}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>订单生成</NativeTabs.Trigger.Label>
