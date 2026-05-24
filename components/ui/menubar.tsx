@@ -2,16 +2,7 @@ import * as MenubarPrimitive from '@rn-primitives/menubar'
 import { Portal } from '@rn-primitives/portal'
 import { Check, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react-native'
 import * as React from 'react'
-import {
-  Platform,
-  Pressable,
-  type StyleProp,
-  StyleSheet,
-  Text,
-  type TextProps,
-  View,
-  type ViewStyle,
-} from 'react-native'
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import { FadeIn } from 'react-native-reanimated'
 import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens'
 import { Icon } from '@/components/ui/icon'
@@ -36,7 +27,7 @@ function Menubar({
   value: valueProp,
   onValueChange: onValueChangeProp,
   ...props
-}: MenubarPrimitive.RootProps & React.RefAttributes<MenubarPrimitive.RootRef>) {
+}: React.ComponentProps<typeof MenubarPrimitive.Root>) {
   const id = React.useId()
   const [value, setValue] = React.useState<string | undefined>(undefined)
 
@@ -71,7 +62,7 @@ function Menubar({
 function MenubarTrigger({
   className,
   ...props
-}: MenubarPrimitive.TriggerProps & React.RefAttributes<MenubarPrimitive.TriggerRef>) {
+}: React.ComponentProps<typeof MenubarPrimitive.Trigger>) {
   const { value } = MenubarPrimitive.useRootContext()
   const { value: itemValue } = MenubarPrimitive.useMenuContext()
 
@@ -103,12 +94,11 @@ function MenubarSubTrigger({
   children,
   iconClassName,
   ...props
-}: MenubarPrimitive.SubTriggerProps &
-  React.RefAttributes<MenubarPrimitive.SubTriggerRef> & {
-    children?: React.ReactNode
-    iconClassName?: string
-    inset?: boolean
-  }) {
+}: React.ComponentProps<typeof MenubarPrimitive.SubTrigger> & {
+  children?: React.ReactNode
+  iconClassName?: string
+  inset?: boolean
+}) {
   const { open } = MenubarPrimitive.useSubContext()
   const icon = Platform.OS === 'web' ? ChevronRight : open ? ChevronUp : ChevronDown
   return (
@@ -124,6 +114,7 @@ function MenubarSubTrigger({
           Platform.select({
             web: 'focus:bg-accent focus:text-accent-foreground cursor-default outline-none [&_svg]:pointer-events-none',
           }),
+          className,
           open && 'bg-accent',
           inset && 'pl-8'
         )}
@@ -139,7 +130,7 @@ function MenubarSubTrigger({
 function MenubarSubContent({
   className,
   ...props
-}: MenubarPrimitive.SubContentProps & React.RefAttributes<MenubarPrimitive.SubContentRef>) {
+}: React.ComponentProps<typeof MenubarPrimitive.SubContent>) {
   return (
     <NativeOnlyAnimatedView entering={FadeIn}>
       <MenubarPrimitive.SubContent
@@ -158,19 +149,14 @@ function MenubarSubContent({
 
 function MenubarContent({
   className,
-  overlayClassName,
-  overlayStyle,
   portalHost,
   align = 'start',
   alignOffset = -4,
   sideOffset = 8,
   ...props
-}: MenubarPrimitive.ContentProps &
-  React.RefAttributes<MenubarPrimitive.ContentRef> & {
-    overlayStyle?: StyleProp<ViewStyle>
-    overlayClassName?: string
-    portalHost?: string
-  }) {
+}: React.ComponentProps<typeof MenubarPrimitive.Content> & {
+  portalHost?: string
+}) {
   return (
     <MenubarPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
@@ -209,12 +195,11 @@ function MenubarItem({
   inset,
   variant,
   ...props
-}: MenubarPrimitive.ItemProps &
-  React.RefAttributes<MenubarPrimitive.ItemRef> & {
-    className?: string
-    inset?: boolean
-    variant?: 'default' | 'destructive'
-  }) {
+}: React.ComponentProps<typeof MenubarPrimitive.Item> & {
+  className?: string
+  inset?: boolean
+  variant?: 'default' | 'destructive'
+}) {
   return (
     <TextClassContext.Provider
       value={cn(
@@ -246,10 +231,9 @@ function MenubarCheckboxItem({
   className,
   children,
   ...props
-}: MenubarPrimitive.CheckboxItemProps &
-  React.RefAttributes<MenubarPrimitive.CheckboxItemRef> & {
-    children?: React.ReactNode
-  }) {
+}: React.ComponentProps<typeof MenubarPrimitive.CheckboxItem> & {
+  children?: React.ReactNode
+}) {
   return (
     <TextClassContext.Provider value="text-sm text-popover-foreground select-none group-active:text-accent-foreground">
       <MenubarPrimitive.CheckboxItem
@@ -284,10 +268,9 @@ function MenubarRadioItem({
   className,
   children,
   ...props
-}: MenubarPrimitive.RadioItemProps &
-  React.RefAttributes<MenubarPrimitive.RadioItemRef> & {
-    children?: React.ReactNode
-  }) {
+}: React.ComponentProps<typeof MenubarPrimitive.RadioItem> & {
+  children?: React.ReactNode
+}) {
   return (
     <TextClassContext.Provider value="text-sm text-popover-foreground select-none group-active:text-accent-foreground">
       <MenubarPrimitive.RadioItem
@@ -316,11 +299,10 @@ function MenubarLabel({
   className,
   inset,
   ...props
-}: MenubarPrimitive.LabelProps &
-  React.RefAttributes<MenubarPrimitive.LabelRef> & {
-    className?: string
-    inset?: boolean
-  }) {
+}: React.ComponentProps<typeof MenubarPrimitive.Label> & {
+  className?: string
+  inset?: boolean
+}) {
   return (
     <MenubarPrimitive.Label
       className={cn(
@@ -336,13 +318,13 @@ function MenubarLabel({
 function MenubarSeparator({
   className,
   ...props
-}: MenubarPrimitive.SeparatorProps & React.RefAttributes<MenubarPrimitive.SeparatorRef>) {
+}: React.ComponentProps<typeof MenubarPrimitive.Separator>) {
   return (
     <MenubarPrimitive.Separator className={cn('bg-border -mx-1 my-1 h-px', className)} {...props} />
   )
 }
 
-function MenubarShortcut({ className, ...props }: TextProps & React.RefAttributes<Text>) {
+function MenubarShortcut({ className, ...props }: React.ComponentProps<typeof Text>) {
   return (
     <Text
       className={cn('text-muted-foreground ml-auto text-xs tracking-widest', className)}

@@ -22,15 +22,14 @@ function DialogOverlay({
   className,
   children,
   ...props
-}: Omit<DialogPrimitive.OverlayProps, 'asChild'> &
-  React.RefAttributes<DialogPrimitive.OverlayRef> & {
-    children?: React.ReactNode
-  }) {
+}: Omit<React.ComponentProps<typeof DialogPrimitive.Overlay>, 'asChild'> & {
+  children?: React.ReactNode
+}) {
   return (
     <FullWindowOverlay>
       <DialogPrimitive.Overlay
         className={cn(
-          'absolute bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black/50 p-2',
+          'absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black/50 p-2',
           Platform.select({
             web: 'animate-in fade-in-0 fixed cursor-default [&>*]:cursor-auto',
           }),
@@ -53,10 +52,9 @@ function DialogContent({
   portalHost,
   children,
   ...props
-}: DialogPrimitive.ContentProps &
-  React.RefAttributes<DialogPrimitive.ContentRef> & {
-    portalHost?: string
-  }) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  portalHost?: string
+}) {
   return (
     <DialogPortal hostName={portalHost}>
       <DialogOverlay>
@@ -107,10 +105,7 @@ function DialogFooter({ className, ...props }: ViewProps) {
   )
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: DialogPrimitive.TitleProps & React.RefAttributes<DialogPrimitive.TitleRef>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       className={cn('text-foreground text-lg font-semibold leading-none', className)}
@@ -122,7 +117,7 @@ function DialogTitle({
 function DialogDescription({
   className,
   ...props
-}: DialogPrimitive.DescriptionProps & React.RefAttributes<DialogPrimitive.DescriptionRef>) {
+}: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
       className={cn('text-muted-foreground text-sm', className)}

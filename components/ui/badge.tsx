@@ -1,12 +1,12 @@
-import * as Slot from '@rn-primitives/slot'
+import { Slot } from '@rn-primitives/slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Platform, View, type ViewProps } from 'react-native'
+import { Platform, View } from 'react-native'
 import { TextClassContext } from '@/components/ui/text'
 import { cn } from '@/lib/utils'
 
 const badgeVariants = cva(
   cn(
-    'border-border group shrink-0 flex-row items-center justify-center gap-1 overflow-hidden rounded-md border px-2 py-0.5',
+    'border-border group shrink-0 flex-row items-center justify-center gap-1 overflow-hidden rounded-full border px-2 py-0.5',
     Platform.select({
       web: 'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive w-fit whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] [&>svg]:pointer-events-none [&>svg]:size-3',
     })
@@ -49,13 +49,13 @@ const badgeTextVariants = cva('text-xs font-medium', {
   },
 })
 
-type BadgeProps = ViewProps &
+type BadgeProps = React.ComponentProps<typeof View> &
   React.RefAttributes<View> & {
     asChild?: boolean
   } & VariantProps<typeof badgeVariants>
 
 function Badge({ className, variant, asChild, ...props }: BadgeProps) {
-  const Component = asChild ? Slot.View : View
+  const Component = asChild ? Slot : View
   return (
     <TextClassContext.Provider value={badgeTextVariants({ variant })}>
       <Component className={cn(badgeVariants({ variant }), className)} {...props} />
