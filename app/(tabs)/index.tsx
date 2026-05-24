@@ -1,4 +1,4 @@
-import * as MediaLibrary from 'expo-media-library'
+import * as MediaLibrary from 'expo-media-library/legacy'
 import {
   Bed,
   CalendarDays,
@@ -129,7 +129,7 @@ export default function OrderGeneratorScreen() {
 
     try {
       setIsSaving(true)
-      const permission = await MediaLibrary.requestPermissionsAsync()
+      const permission = await MediaLibrary.requestPermissionsAsync(true)
       if (!permission.granted) {
         Alert.alert('无法保存', '请允许访问相册后再保存图片。')
         return
