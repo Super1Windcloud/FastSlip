@@ -1,3 +1,4 @@
+import * as MediaLibrary from 'expo-media-library'
 import {
   Bed,
   CalendarDays,
@@ -14,10 +15,12 @@ import {
   Share2,
   Utensils,
 } from 'lucide-react-native'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import {
+  Alert,
   Image,
+  Platform as NativePlatform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -27,6 +30,7 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { captureRef } from 'react-native-view-shot'
 
 type Platform = 'ctrip' | 'meituan'
 type OrderStatus = '已完成' | '预订成功' | '待支付' | '已取消'
@@ -89,8 +93,10 @@ const meituanDefaults: Partial<OrderForm> = {
 
 export default function OrderGeneratorScreen() {
   const { width } = useWindowDimensions()
+  const previewRef = useRef<View>(null)
   const [platform, setPlatform] = useState<Platform>('ctrip')
   const [form, setForm] = useState<OrderForm>(initialForm)
+  const [isSaving, setIsSaving] = useState(false)
 
   const previewStyle = useMemo(
     () => [styles.phoneFrame, width >= 940 ? styles.phoneFrameWide : undefined],
@@ -108,6 +114,38 @@ export default function OrderGeneratorScreen() {
       return
     }
     setForm((current) => ({ ...current, ...initialForm }))
+  }
+
+  const savePreview = async () => {
+    if (!previewRef.current || isSaving) {
+      return
+    }
+
+    if (NativePlatform.OS === 'web') {
+      Alert.alert('暂不支持', '网页端不能直接保存到系统相册，请在手机端使用。')
+      return
+    }
+
+    try {
+      setIsSaving(true)
+      const permission = await MediaLibrary.requestPermissionsAsync()
+      if (!permission.granted) {
+        Alert.alert('无法保存', '请允许访问相册后再保存图片。')
+        return
+      }
+
+      const uri = await captureRef(previewRef, {
+        fileName: `hotel-order-${platform}-${Date.now()}`,
+        format: 'png',
+        quality: 1,
+      })
+      await MediaLibrary.saveToLibraryAsync(uri)
+      Alert.alert('已保存', '订单截图已保存到相册。')
+    } catch {
+      Alert.alert('保存失败', '请稍后重试。')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -281,8 +319,17 @@ export default function OrderGeneratorScreen() {
           </View>
 
           <View style={styles.previewColumn}>
-            <Text style={styles.previewTitle}>实时预览</Text>
-            <View style={previewStyle}>
+            <View style={styles.previewHeader}>
+              <Text style={styles.previewTitle}>实时预览</Text>
+              <Pressable
+                disabled={isSaving}
+                onPress={savePreview}
+                style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}
+              >
+                <Text style={styles.saveButtonText}>{isSaving ? '保存中' : '保存到相册'}</Text>
+              </Pressable>
+            </View>
+            <View collapsable={false} ref={previewRef} style={previewStyle}>
               {platform === 'ctrip' ? (
                 <CtripPreview form={form} imageSource={defaultHotelImage} />
               ) : (
@@ -1341,6 +1388,12 @@ const styles = StyleSheet.create({
   previewColumn: {
     gap: 10,
   },
+  previewHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
   previewScroll: {
     flex: 1,
   },
@@ -1389,6 +1442,23 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: '#f3f4f6',
     flex: 1,
+  },
+  saveButton: {
+    alignItems: 'center',
+    backgroundColor: '#111827',
+    borderRadius: 6,
+    minHeight: 36,
+    justifyContent: 'center',
+    paddingHorizontal: 14,
+  },
+  saveButtonDisabled: {
+    opacity: 0.58,
+  },
+  saveButtonText: {
+    color: '#ffffff',
+    fontSize: 13,
+    fontWeight: '900',
+    letterSpacing: 0,
   },
   sectionTitle: {
     color: '#111827',
