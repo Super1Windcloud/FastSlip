@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "create-expo-stack-template",
-    "slug": "create-expo-stack-template",
+    "name": "expo-template",
+    "slug": "expo-template",
     "version": "1.0.0",
-    "scheme": "create-expo-stack-template",
+    "scheme": "expo-template",
     "platforms": ["ios", "android", "web"],
     "web": {
       "bundler": "metro",
