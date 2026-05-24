@@ -1,9 +1,9 @@
 {
   "expo": {
     "name": "酒店订单生成",
-    "slug": "expo-template",
+    "slug": "hotel-booking",
     "version": "1.0.0",
-    "scheme": "expo-template",
+    "scheme": "hotel-booking",
     "platforms": ["ios", "android", "web"],
     "web": {
       "bundler": "metro",

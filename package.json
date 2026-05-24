@@ -1,6 +1,6 @@
 {
-  "name": "expo-template",
-  "version": "1.0.0",
+  "name": "hotel-booking",
+  "version": "1.0.1",
   "main": "expo-router/entry",
   "authors": [
     {
