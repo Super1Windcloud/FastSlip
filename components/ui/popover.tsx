@@ -1,17 +1,17 @@
-import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view';
-import { TextClassContext } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
-import * as PopoverPrimitive from '@rn-primitives/popover';
-import * as React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { FadeIn, FadeOut } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
+import * as PopoverPrimitive from '@rn-primitives/popover'
+import * as React from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import { FadeIn, FadeOut } from 'react-native-reanimated'
+import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens'
+import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view'
+import { TextClassContext } from '@/components/ui/text'
+import { cn } from '@/lib/utils'
 
-const Popover = PopoverPrimitive.Root;
+const Popover = PopoverPrimitive.Root
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
+const PopoverTrigger = PopoverPrimitive.Trigger
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
+const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment
 
 function PopoverContent({
   className,
@@ -20,8 +20,8 @@ function PopoverContent({
   portalHost,
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Content> & {
-    portalHost?: string;
-  }) {
+  portalHost?: string
+}) {
   return (
     <PopoverPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
@@ -49,7 +49,7 @@ function PopoverContent({
         </PopoverPrimitive.Overlay>
       </FullWindowOverlay>
     </PopoverPrimitive.Portal>
-  );
+  )
 }
 
-export { Popover, PopoverContent, PopoverTrigger };
+export { Popover, PopoverContent, PopoverTrigger }

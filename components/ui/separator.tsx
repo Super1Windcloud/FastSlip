@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
-import * as SeparatorPrimitive from '@rn-primitives/separator';
+import * as SeparatorPrimitive from '@rn-primitives/separator'
+import { cn } from '@/lib/utils'
 
 function Separator({
   className,
@@ -18,7 +18,7 @@ function Separator({
       )}
       {...props}
     />
-  );
+  )
 }
 
-export { Separator };
+export { Separator }

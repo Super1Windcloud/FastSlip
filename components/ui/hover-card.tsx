@@ -1,17 +1,17 @@
-import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view';
-import { TextClassContext } from '@/components/ui/text';
-import { cn } from '@/lib/utils';
-import * as HoverCardPrimitive from '@rn-primitives/hover-card';
-import * as React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { FadeIn, FadeOut } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
+import * as HoverCardPrimitive from '@rn-primitives/hover-card'
+import * as React from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import { FadeIn, FadeOut } from 'react-native-reanimated'
+import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens'
+import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view'
+import { TextClassContext } from '@/components/ui/text'
+import { cn } from '@/lib/utils'
 
-const HoverCard = HoverCardPrimitive.Root;
+const HoverCard = HoverCardPrimitive.Root
 
-const HoverCardTrigger = HoverCardPrimitive.Trigger;
+const HoverCardTrigger = HoverCardPrimitive.Trigger
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
+const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment
 
 function HoverCardContent({
   className,
@@ -46,7 +46,7 @@ function HoverCardContent({
         </HoverCardPrimitive.Overlay>
       </FullWindowOverlay>
     </HoverCardPrimitive.Portal>
-  );
+  )
 }
 
-export { HoverCard, HoverCardContent, HoverCardTrigger };
+export { HoverCard, HoverCardContent, HoverCardTrigger }

@@ -1,30 +1,30 @@
-import { Icon } from '@/components/ui/icon';
-import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view';
-import { cn } from '@/lib/utils';
-import * as DialogPrimitive from '@rn-primitives/dialog';
-import { X } from 'lucide-react-native';
-import * as React from 'react';
-import { Platform, Text, View, type ViewProps } from 'react-native';
-import { FadeIn, FadeOut } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
+import * as DialogPrimitive from '@rn-primitives/dialog'
+import { X } from 'lucide-react-native'
+import * as React from 'react'
+import { Platform, Text, View, type ViewProps } from 'react-native'
+import { FadeIn, FadeOut } from 'react-native-reanimated'
+import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens'
+import { Icon } from '@/components/ui/icon'
+import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view'
+import { cn } from '@/lib/utils'
 
-const Dialog = DialogPrimitive.Root;
+const Dialog = DialogPrimitive.Root
 
-const DialogTrigger = DialogPrimitive.Trigger;
+const DialogTrigger = DialogPrimitive.Trigger
 
-const DialogPortal = DialogPrimitive.Portal;
+const DialogPortal = DialogPrimitive.Portal
 
-const DialogClose = DialogPrimitive.Close;
+const DialogClose = DialogPrimitive.Close
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
+const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment
 
 function DialogOverlay({
   className,
   children,
   ...props
 }: Omit<React.ComponentProps<typeof DialogPrimitive.Overlay>, 'asChild'> & {
-    children?: React.ReactNode;
-  }) {
+  children?: React.ReactNode
+}) {
   return (
     <FullWindowOverlay>
       <DialogPrimitive.Overlay
@@ -36,7 +36,8 @@ function DialogOverlay({
           className
         )}
         {...props}
-        asChild={Platform.OS !== 'web'}>
+        asChild={Platform.OS !== 'web'}
+      >
         <NativeOnlyAnimatedView entering={FadeIn.duration(200)} exiting={FadeOut.duration(150)}>
           <NativeOnlyAnimatedView entering={FadeIn.delay(50)} exiting={FadeOut.duration(150)}>
             <>{children}</>
@@ -44,7 +45,7 @@ function DialogOverlay({
         </NativeOnlyAnimatedView>
       </DialogPrimitive.Overlay>
     </FullWindowOverlay>
-  );
+  )
 }
 function DialogContent({
   className,
@@ -52,8 +53,8 @@ function DialogContent({
   children,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
-    portalHost?: string;
-  }) {
+  portalHost?: string
+}) {
   return (
     <DialogPortal hostName={portalHost}>
       <DialogOverlay>
@@ -65,7 +66,8 @@ function DialogContent({
             }),
             className
           )}
-          {...props}>
+          {...props}
+        >
           <>{children}</>
           <DialogPrimitive.Close
             className={cn(
@@ -74,7 +76,8 @@ function DialogContent({
                 web: 'ring-offset-background focus:ring-ring data-[state=open]:bg-accent transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2',
               })
             )}
-            hitSlop={12}>
+            hitSlop={12}
+          >
             <Icon
               as={X}
               className={cn('text-accent-foreground web:pointer-events-none size-4 shrink-0')}
@@ -84,13 +87,13 @@ function DialogContent({
         </DialogPrimitive.Content>
       </DialogOverlay>
     </DialogPortal>
-  );
+  )
 }
 
 function DialogHeader({ className, ...props }: ViewProps) {
   return (
     <View className={cn('flex flex-col gap-2 text-center sm:text-left', className)} {...props} />
-  );
+  )
 }
 
 function DialogFooter({ className, ...props }: ViewProps) {
@@ -99,19 +102,16 @@ function DialogFooter({ className, ...props }: ViewProps) {
       className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
       {...props}
     />
-  );
+  )
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       className={cn('text-foreground text-lg font-semibold leading-none', className)}
       {...props}
     />
-  );
+  )
 }
 
 function DialogDescription({
@@ -123,7 +123,7 @@ function DialogDescription({
       className={cn('text-muted-foreground text-sm', className)}
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -137,4 +137,4 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-};
+}

@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
-import { Platform, TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native'
+import { cn } from '@/lib/utils'
 
 function Textarea({
   className,
@@ -24,7 +24,7 @@ function Textarea({
       textAlignVertical="top"
       {...props}
     />
-  );
+  )
 }
 
-export { Textarea };
+export { Textarea }
