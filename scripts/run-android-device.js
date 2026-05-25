@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
 const { execFileSync, spawnSync } = require("node:child_process");
+const { dirname, join } = require("node:path");
+
+function nodeBin(command) {
+  return process.platform === "win32" ? join(dirname(process.execPath), `${command}.cmd`) : command;
+}
 
 function adb(args, options = {}) {
   return execFileSync("adb", args, {
@@ -51,7 +56,8 @@ function pickDevice(devices) {
 const explicitDevice = process.env.ANDROID_DEVICE;
 const forwardedArgs = process.argv.slice(2);
 const expoArgs = ["expo", "run:android", ...forwardedArgs];
-const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
+const npxCommand = nodeBin("npx");
+const env = { ...process.env };
 
 if (explicitDevice) {
   expoArgs.push("--device", explicitDevice);
@@ -74,14 +80,16 @@ if (explicitDevice) {
   }
 
   const connection = isWirelessDevice(selectedDevice) ? "wireless" : isWiredDevice(selectedDevice) ? "wired" : "emulator";
-  console.log(`Using ${connection} Android device: ${deviceName(selectedDevice.serial)} (${selectedDevice.serial})`);
-  expoArgs.push("--device", selectedDevice.serial);
+  const name = deviceName(selectedDevice.serial);
+  console.log(`Using ${connection} Android device: ${name} (${selectedDevice.serial})`);
+  env.ANDROID_SERIAL = selectedDevice.serial;
+  expoArgs.push("--device", name);
 }
 
 if (process.env.ANDROID_DEVICE_DRY_RUN === "1") {
-  console.log([npxCommand, ...expoArgs].join(" "));
+  console.log([`ANDROID_SERIAL=${env.ANDROID_SERIAL ?? ""}`, npxCommand, ...expoArgs].join(" "));
   process.exit(0);
 }
 
-const result = spawnSync(npxCommand, expoArgs, { stdio: "inherit" });
+const result = spawnSync(npxCommand, expoArgs, { env, stdio: "inherit" });
 process.exit(result.status ?? 1);

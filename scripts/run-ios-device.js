@@ -2,8 +2,12 @@
 
 const { execFileSync, spawnSync } = require("node:child_process");
 const { mkdtempSync, readFileSync, rmSync } = require("node:fs");
-const { join } = require("node:path");
+const { dirname, join } = require("node:path");
 const { tmpdir } = require("node:os");
+
+function nodeBin(command) {
+  return process.platform === "win32" ? join(dirname(process.execPath), `${command}.cmd`) : command;
+}
 
 function readDevices() {
   const dir = mkdtempSync(join(tmpdir(), "ios-devices-"));
@@ -87,9 +91,9 @@ if (explicitDevice) {
 }
 
 if (process.env.IOS_DEVICE_DRY_RUN === "1") {
-  console.log(["npx", ...expoArgs].join(" "));
+  console.log([nodeBin("npx"), ...expoArgs].join(" "));
   process.exit(0);
 }
 
-const result = spawnSync("npx", expoArgs, { stdio: "inherit" });
+const result = spawnSync(nodeBin("npx"), expoArgs, { stdio: "inherit" });
 process.exit(result.status ?? 1);
