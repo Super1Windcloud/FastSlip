@@ -2,12 +2,8 @@
 
 const { execFileSync, spawnSync } = require("node:child_process");
 const { mkdtempSync, readFileSync, rmSync } = require("node:fs");
-const { dirname, join } = require("node:path");
+const { join } = require("node:path");
 const { tmpdir } = require("node:os");
-
-function nodeBin(command) {
-  return process.platform === "win32" ? join(dirname(process.execPath), `${command}.cmd`) : command;
-}
 
 function readDevices() {
   const dir = mkdtempSync(join(tmpdir(), "ios-devices-"));
@@ -70,7 +66,8 @@ function pickDevice(devices) {
 
 const explicitDevice = process.env.IOS_DEVICE;
 const forwardedArgs = process.argv.slice(2);
-const expoArgs = ["expo", "run:ios", ...forwardedArgs];
+const expoCli = join(process.cwd(), "node_modules", "expo", "bin", "cli");
+const expoArgs = [expoCli, "run:ios", ...forwardedArgs];
 
 if (explicitDevice) {
   expoArgs.push("--device", explicitDevice);
@@ -91,9 +88,9 @@ if (explicitDevice) {
 }
 
 if (process.env.IOS_DEVICE_DRY_RUN === "1") {
-  console.log([nodeBin("npx"), ...expoArgs].join(" "));
+  console.log([process.execPath, ...expoArgs].join(" "));
   process.exit(0);
 }
 
-const result = spawnSync(nodeBin("npx"), expoArgs, { stdio: "inherit" });
+const result = spawnSync(process.execPath, expoArgs, { stdio: "inherit" });
 process.exit(result.status ?? 1);

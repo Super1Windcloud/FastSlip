@@ -134,8 +134,8 @@ function runScript(script) {
   return spawnSync(nodeBin("npm"), ["run", script], { stdio: "inherit" });
 }
 
-function runCommand(command, args) {
-  return spawnSync(nodeBin(command), args, { stdio: "inherit" });
+function runExpo(args) {
+  return spawnSync(process.execPath, [join(root, "node_modules", "expo", "bin", "cli"), ...args], { stdio: "inherit" });
 }
 
 const fingerprint = nativeFingerprint();
@@ -157,5 +157,5 @@ if (shouldRebuildNative) {
   process.exit(result.status ?? 1);
 }
 
-const result = runCommand("npx", ["expo", "start", "--dev-client"]);
+const result = runExpo(["start", "--dev-client"]);
 process.exit(result.status ?? 1);

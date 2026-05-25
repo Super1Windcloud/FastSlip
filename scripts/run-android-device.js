@@ -1,11 +1,7 @@
 #!/usr/bin/env node
 
 const { execFileSync, spawnSync } = require("node:child_process");
-const { dirname, join } = require("node:path");
-
-function nodeBin(command) {
-  return process.platform === "win32" ? join(dirname(process.execPath), `${command}.cmd`) : command;
-}
+const { join } = require("node:path");
 
 function adb(args, options = {}) {
   return execFileSync("adb", args, {
@@ -15,15 +11,21 @@ function adb(args, options = {}) {
 }
 
 function readDevices() {
-  const output = adb(["devices"]);
+  const output = adb(["devices", "-l"]);
   return output
     .split(/\r?\n/)
     .slice(1)
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
-      const [serial, state] = line.split(/\s+/);
-      return { serial, state };
+      const [serial, state, ...details] = line.split(/\s+/);
+      const detailMap = Object.fromEntries(
+        details
+          .map((detail) => detail.split(":"))
+          .filter(([key, value]) => key && value)
+          .map(([key, ...value]) => [key, value.join(":")]),
+      );
+      return { serial, state, model: detailMap.model };
     })
     .filter((device) => device.serial && device.state === "device");
 }
@@ -43,7 +45,7 @@ function isWiredDevice(device) {
 function deviceName(serial) {
   try {
     const model = adb(["-s", serial, "shell", "getprop", "ro.product.model"], { stderr: "ignore" }).trim();
-    return model || serial;
+    return model.replace(/_/g, " ") || serial;
   } catch {
     return serial;
   }
@@ -55,8 +57,9 @@ function pickDevice(devices) {
 
 const explicitDevice = process.env.ANDROID_DEVICE;
 const forwardedArgs = process.argv.slice(2);
-const expoArgs = ["expo", "run:android", ...forwardedArgs];
-const npxCommand = nodeBin("npx");
+const expoCli = join(process.cwd(), "node_modules", "expo", "bin", "cli");
+const expoArgs = [expoCli, "run:android", ...forwardedArgs];
+const nodeCommand = process.execPath;
 const env = { ...process.env };
 
 if (explicitDevice) {
@@ -83,13 +86,13 @@ if (explicitDevice) {
   const name = deviceName(selectedDevice.serial);
   console.log(`Using ${connection} Android device: ${name} (${selectedDevice.serial})`);
   env.ANDROID_SERIAL = selectedDevice.serial;
-  expoArgs.push("--device", name);
+  expoArgs.push("--device", selectedDevice.model ?? selectedDevice.serial);
 }
 
 if (process.env.ANDROID_DEVICE_DRY_RUN === "1") {
-  console.log([`ANDROID_SERIAL=${env.ANDROID_SERIAL ?? ""}`, npxCommand, ...expoArgs].join(" "));
+  console.log([`ANDROID_SERIAL=${env.ANDROID_SERIAL ?? ""}`, nodeCommand, ...expoArgs].join(" "));
   process.exit(0);
 }
 
-const result = spawnSync(npxCommand, expoArgs, { env, stdio: "inherit" });
+const result = spawnSync(nodeCommand, expoArgs, { env, stdio: "inherit" });
 process.exit(result.status ?? 1);
