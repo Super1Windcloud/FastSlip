@@ -61,6 +61,7 @@ const expoCli = join(process.cwd(), "node_modules", "expo", "bin", "cli");
 const expoArgs = [expoCli, "run:android", ...forwardedArgs];
 const nodeCommand = process.execPath;
 const env = { ...process.env };
+env.REACT_NATIVE_PACKAGER_HOSTNAME ??= "localhost";
 
 if (explicitDevice) {
   expoArgs.push("--device", explicitDevice);

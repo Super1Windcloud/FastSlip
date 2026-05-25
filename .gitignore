@@ -22,3 +22,8 @@ expo-env.d.ts
 .metro-health-check*
 android
 ios
+build-1779723719069.aab
+*.apk
+*.app
+*.ipa
+*.aab
