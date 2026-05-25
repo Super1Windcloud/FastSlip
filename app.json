@@ -50,7 +50,8 @@
       "bundleIdentifier": "com.superriver.createexpostacktemplate",
       "infoPlist": {
         "NSPhotoLibraryAddUsageDescription": "允许应用保存生成的订单截图到相册。",
-        "NSPhotoLibraryUsageDescription": "允许应用访问相册以保存生成的订单截图。"
+        "NSPhotoLibraryUsageDescription": "允许应用访问相册以保存生成的订单截图。",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -71,8 +72,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "20510199-5c60-4910-8c32-3d056217f8e3"
+        "projectId": "33358487-5afc-48c1-b888-e58c9ee127c6"
       }
-    }
+    },
+    "owner": "superriver"
   }
 }
