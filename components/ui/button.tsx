@@ -1,7 +1,7 @@
-import { cva, type VariantProps } from 'class-variance-authority'
-import { Platform, Pressable } from 'react-native'
-import { TextClassContext } from '@/components/ui/text'
-import { cn } from '@/lib/utils'
+import { TextClassContext } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Platform, Pressable } from 'react-native';
 
 const buttonVariants = cva(
   cn(
@@ -51,7 +51,7 @@ const buttonVariants = cva(
       size: 'default',
     },
   }
-)
+);
 
 const buttonTextVariants = cva(
   cn(
@@ -86,11 +86,9 @@ const buttonTextVariants = cva(
       size: 'default',
     },
   }
-)
+);
 
-type ButtonProps = React.ComponentProps<typeof Pressable> &
-  React.RefAttributes<typeof Pressable> &
-  VariantProps<typeof buttonVariants>
+type ButtonProps = React.ComponentProps<typeof Pressable> & React.RefAttributes<typeof Pressable> & VariantProps<typeof buttonVariants>;
 
 function Button({ className, variant, size, ...props }: ButtonProps) {
   return (
@@ -101,8 +99,8 @@ function Button({ className, variant, size, ...props }: ButtonProps) {
         {...props}
       />
     </TextClassContext.Provider>
-  )
+  );
 }
 
-export type { ButtonProps }
-export { Button, buttonTextVariants, buttonVariants }
+export { Button, buttonTextVariants, buttonVariants };
+export type { ButtonProps };

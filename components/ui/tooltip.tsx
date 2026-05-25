@@ -1,17 +1,17 @@
-import * as TooltipPrimitive from '@rn-primitives/tooltip'
-import * as React from 'react'
-import { Platform, StyleSheet } from 'react-native'
-import { FadeInDown, FadeInUp, FadeOut } from 'react-native-reanimated'
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens'
-import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view'
-import { TextClassContext } from '@/components/ui/text'
-import { cn } from '@/lib/utils'
+import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view';
+import { TextClassContext } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
+import * as TooltipPrimitive from '@rn-primitives/tooltip';
+import * as React from 'react';
+import { Platform, StyleSheet } from 'react-native';
+import { FadeInDown, FadeInUp, FadeOut } from 'react-native-reanimated';
+import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
-const Tooltip = TooltipPrimitive.Root
+const Tooltip = TooltipPrimitive.Root;
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+const TooltipTrigger = TooltipPrimitive.Trigger;
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment
+const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
 
 function TooltipContent({
   className,
@@ -20,8 +20,8 @@ function TooltipContent({
   side = 'top',
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content> & {
-  portalHost?: string
-}) {
+    portalHost?: string;
+  }) {
   return (
     <TooltipPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
@@ -32,8 +32,7 @@ function TooltipContent({
                 ? FadeInDown.withInitialValues({ transform: [{ translateY: 3 }] }).duration(150)
                 : FadeInUp.withInitialValues({ transform: [{ translateY: -5 }] })
             }
-            exiting={FadeOut}
-          >
+            exiting={FadeOut}>
             <TextClassContext.Provider value="text-xs text-primary-foreground">
               <TooltipPrimitive.Content
                 sideOffset={sideOffset}
@@ -58,7 +57,7 @@ function TooltipContent({
         </TooltipPrimitive.Overlay>
       </FullWindowOverlay>
     </TooltipPrimitive.Portal>
-  )
+  );
 }
 
-export { Tooltip, TooltipContent, TooltipTrigger }
+export { Tooltip, TooltipContent, TooltipTrigger };

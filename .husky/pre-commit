@@ -1,3 +1,10 @@
 #!/bin/env sh
 
-npm run fix
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*)
+    powershell.exe -NoProfile -Command "npm run fix"
+    ;;
+  *)
+    npm run fix
+    ;;
+esac

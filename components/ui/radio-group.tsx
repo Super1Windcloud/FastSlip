@@ -1,12 +1,12 @@
-import * as RadioGroupPrimitive from '@rn-primitives/radio-group'
-import { Platform } from 'react-native'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
+import * as RadioGroupPrimitive from '@rn-primitives/radio-group';
+import { Platform } from 'react-native';
 
 function RadioGroup({
   className,
   ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
-  return <RadioGroupPrimitive.Root className={cn('gap-3', className)} {...props} />
+  return <RadioGroupPrimitive.Root className={cn('gap-3', className)} {...props} />;
 }
 
 function RadioGroupItem({
@@ -23,11 +23,10 @@ function RadioGroupItem({
         props.disabled && 'opacity-50',
         className
       )}
-      {...props}
-    >
+      {...props}>
       <RadioGroupPrimitive.Indicator className="bg-primary size-2 rounded-full" />
     </RadioGroupPrimitive.Item>
-  )
+  );
 }
 
-export { RadioGroup, RadioGroupItem }
+export { RadioGroup, RadioGroupItem };

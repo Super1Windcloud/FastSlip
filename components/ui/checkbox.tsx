@@ -1,10 +1,10 @@
-import * as CheckboxPrimitive from '@rn-primitives/checkbox'
-import { Check } from 'lucide-react-native'
-import { Platform } from 'react-native'
-import { Icon } from '@/components/ui/icon'
-import { cn } from '@/lib/utils'
+import { Icon } from '@/components/ui/icon';
+import { cn } from '@/lib/utils';
+import * as CheckboxPrimitive from '@rn-primitives/checkbox';
+import { Check } from 'lucide-react-native';
+import { Platform } from 'react-native';
 
-const DEFAULT_HIT_SLOP = 24
+const DEFAULT_HIT_SLOP = 24;
 
 function Checkbox({
   className,
@@ -13,10 +13,10 @@ function Checkbox({
   iconClassName,
   ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
-  checkedClassName?: string
-  indicatorClassName?: string
-  iconClassName?: string
-}) {
+    checkedClassName?: string;
+    indicatorClassName?: string;
+    iconClassName?: string;
+  }) {
   return (
     <CheckboxPrimitive.Root
       className={cn(
@@ -30,11 +30,9 @@ function Checkbox({
         className
       )}
       hitSlop={DEFAULT_HIT_SLOP}
-      {...props}
-    >
+      {...props}>
       <CheckboxPrimitive.Indicator
-        className={cn('bg-primary h-full w-full items-center justify-center', indicatorClassName)}
-      >
+        className={cn('bg-primary h-full w-full items-center justify-center', indicatorClassName)}>
         <Icon
           as={Check}
           size={12}
@@ -43,7 +41,7 @@ function Checkbox({
         />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
-  )
+  );
 }
 
-export { Checkbox }
+export { Checkbox };
