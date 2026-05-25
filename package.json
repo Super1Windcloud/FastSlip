@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/Super1WindCloud",
   "scripts": {
-    "android": "expo run:android",
+    "android": "node scripts/run-android-device.js",
     "ios": "node scripts/run-ios-device.js",
     "ios:sim": "expo run:ios",
     "start": "node scripts/start-native-aware.js",
