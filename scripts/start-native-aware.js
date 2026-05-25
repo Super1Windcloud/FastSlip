@@ -130,8 +130,9 @@ function nodeBin(command) {
   return process.platform === "win32" ? join(dirname(process.execPath), `${command}.cmd`) : command;
 }
 
-function runScript(script) {
-  return spawnSync(nodeBin("npm"), ["run", script], { stdio: "inherit" });
+function runNativeScript(script) {
+  const scriptPath = join(root, "scripts", `run-${script}-device.js`);
+  return spawnSync(process.execPath, [scriptPath], { stdio: "inherit" });
 }
 
 function runExpo(args) {
@@ -144,13 +145,14 @@ const shouldRebuildNative = process.env.FORCE_NATIVE_BUILD === "1" || previousFi
 
 if (shouldRebuildNative) {
   const nativeScript = process.env.NATIVE_BUILD_PLATFORM === "android" || process.platform === "win32" ? "android" : "ios";
+  const nativeCommand = `node scripts/run-${nativeScript}-device.js`;
   console.log(
     previousFingerprint
-      ? `Native inputs changed. Running \`npm run ${nativeScript}\` before starting Metro.`
-      : `No native baseline found. Running \`npm run ${nativeScript}\` once before starting Metro.`,
+      ? `Native inputs changed. Running \`${nativeCommand}\` before starting Metro.`
+      : `No native baseline found. Running \`${nativeCommand}\` once before starting Metro.`,
   );
 
-  const result = runScript(nativeScript);
+  const result = runNativeScript(nativeScript);
   if (result.status === 0) {
     writeFingerprint(fingerprint);
   }

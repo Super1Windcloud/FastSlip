@@ -16,29 +16,33 @@ export default function TabsLayout() {
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>订单生成</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} />
+        <NativeTabs.Trigger.Icon md="home" sf={{ default: 'house', selected: 'house.fill' }} />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="transfer">
         <NativeTabs.Trigger.Label>转账生成</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'creditcard', selected: 'creditcard.fill' }} />
+        <NativeTabs.Trigger.Icon
+          md="credit_card"
+          sf={{ default: 'creditcard', selected: 'creditcard.fill' }}
+        />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger hidden name="profile">
         <NativeTabs.Trigger.Label>Profile</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
+          md="account_circle"
           sf={{ default: 'face.smiling', selected: 'face.smiling.inverse' }}
         />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger hidden name="favourite">
         <NativeTabs.Trigger.Label>Favourite</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'star', selected: 'star.fill' }} />
+        <NativeTabs.Trigger.Icon md="star" sf={{ default: 'star', selected: 'star.fill' }} />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger hidden name="search">
         <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf="magnifyingglass" />
+        <NativeTabs.Trigger.Icon md="search" sf="magnifyingglass" />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger hidden name="settings" />
