@@ -41,6 +41,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "appleTeamId": "X9A5J5W2WL",
       "bundleIdentifier": "com.superriver.hotelbooking",
       "infoPlist": {
         "NSPhotoLibraryAddUsageDescription": "允许应用保存生成的订单截图到相册。",

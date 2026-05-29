@@ -35,7 +35,8 @@
     "deploy": "npx eas-cli deploy",
     "lint:commit": "commitlint",
     "doctor": "expo-doctor",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "test:no-patch": "npm ci --ignore-scripts && npm run typecheck && npm run lint"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
@@ -68,7 +69,7 @@
     "babel-preset-expo": "~56.0.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "expo": "~56.0.4",
+    "expo": "~56.0.5",
     "expo-constants": "~56.0.15",
     "expo-dev-client": "~56.0.15",
     "expo-font": "~56.0.5",
@@ -123,7 +124,7 @@
   "expo": {
     "doctor": {
       "appConfigFieldsNotSyncedCheck": {
-        "enabled": false
+        "enabled": true
       }
     }
   },
